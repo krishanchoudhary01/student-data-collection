@@ -415,20 +415,7 @@ onclick="viewDocument('${row.id}_other')">
         <td>${row.address}</td>
         <td>${aadharLink}</td>
         <td>${otherLink}</td>
- 
-        <td>
-  <button
-    onclick="deleteStudent('${row.id}')"
-    style="
-      background:#dc2626;
-      color:white;
-      border:none;
-      padding:6px 10px;
-      border-radius:5px;
-      cursor:pointer;">
-    Delete
-  </button>
-</td>
+       <td>${action}</td>
       </tr>
     `;
   }).join("");
