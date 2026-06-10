@@ -416,6 +416,11 @@ onclick="viewDocument('${row.id}_other')">
         <td>${aadharLink}</td>
         <td>${otherLink}</td>
         <td>
+  <button onclick="deleteStudent('${row.id}')">
+    Delete
+  </button>
+</td>
+        <td>
   <button
     onclick="deleteStudent('${row.id}')"
     style="
