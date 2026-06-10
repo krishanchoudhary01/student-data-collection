@@ -268,7 +268,11 @@ function openBase64Window(base64String) {
         <style>body{margin:0;background:#525659;display:flex;justify-content:center;align-items:center;}iframe,img{width:100%;height:100vh;object-fit:contain;border:none;}</style>
       </head>
       <body>
-        ${base64String.startsWith('data:image/') ? <img src="${base64String}"/> : <iframe src="${base64String}" allowfullscreen></iframe>}
+       ${
+  base64String.startsWith('data:image/')
+  ? `<img src="${base64String}"/>`
+  : `<iframe src="${base64String}" allowfullscreen></iframe>`
+}
       </body>
     </html>
   `);
@@ -359,7 +363,12 @@ function logoutAdmin() {
 function renderAdminTable(dataObj) {
   const tbody = document.getElementById("adminTableBody");
   if (!dataObj) {
-    tbody.innerHTML = <tr><td colspan="11" class="no-data">No central student entries found.</td></tr>;
+    tbody.innerHTML = `
+<tr>
+  <td colspan="11" class="no-data">
+    No central student entries found.
+  </td>
+</tr>`;
     return;
   }
 
@@ -371,13 +380,19 @@ function renderAdminTable(dataObj) {
     window[row.id + '_other'] = row.otherFileData;
 
     // FIX: Removed literal quotes around variables inside the window.openBase64Window reference 
-    const aadharLink = (row.aadharFileData && row.aadharFileData !== "—")
-      ? <span class="view-link" onclick="window.openBase64Window('${row.id}_aadhar')"><i class="ti ti-eye"></i> View (${row.aadharFileName.slice(0,12)}...)</span>
-      : "—";
+  const aadharLink = (row.aadharFileData && row.aadharFileData !== "—")
+? `<span class="view-link"
+onclick="window.openBase64Window('${row.id}_aadhar')">
+<i class="ti ti-eye"></i> View
+</span>`
+: "—";
       
     const otherLink = (row.otherFileData && row.otherFileData !== "—")
-      ? <span class="view-link" onclick="window.openBase64Window('${row.id}_other')"><i class="ti ti-eye"></i> View (${row.otherFileName.slice(0,12)}...)</span>
-      : "—";
+? `<span class="view-link"
+onclick="window.openBase64Window('${row.id}_other')">
+<i class="ti ti-eye"></i> View
+</span>`
+: "—";
 
     return `
       <tr>
@@ -411,14 +426,14 @@ function downloadMasterCSV() {
     
     const csvRows = data.map(r => [
       r.name, r.rollNo, r.abcId, r.aadhar, r.studentMobile, r.fatherMobile, r.motherMobile, r.email, r.dob, r.address, r.timestamp
-    ].map(field => "${String(field).replace(/"/g, '""')}").join(","));
+    ].map(field => `"${String(field).replace(/"/g, '""')}"`).join(","));
 
     const csvContent = "\uFEFF" + [headers.join(","), ...csvRows].join("\n");
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const a = document.createElement("a");
     
     a.href = URL.createObjectURL(blob);
-    a.download = Student_Cloud_Data_Master.csv;
+a.download = "Student_Cloud_Data_Master.csv";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
