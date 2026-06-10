@@ -382,14 +382,14 @@ function renderAdminTable(dataObj) {
     // FIX: Removed literal quotes around variables inside the window.openBase64Window reference 
   const aadharLink = (row.aadharFileData && row.aadharFileData !== "—")
 ? `<span class="view-link"
-onclick="window.openBase64Window('${row.id}_aadhar')">
+onclick="viewDocument('${row.id}_aadhar')">
 <i class="ti ti-eye"></i> View
 </span>`
 : "—";
       
     const otherLink = (row.otherFileData && row.otherFileData !== "—")
 ? `<span class="view-link"
-onclick="window.openBase64Window('${row.id}_other')">
+onclick="viewDocument('${row.id}_other')">
 <i class="ti ti-eye"></i> View
 </span>`
 : "—";
@@ -449,10 +449,42 @@ function clearMasterRecords() {
 }
 
 // Explicit window router connector link fix
-window.openBase64Window = function(globalVarKey) {
+function viewDocument(globalVarKey) {
+
   const dataStr = window[globalVarKey];
-  openBase64Window(dataStr);
-};
+
+  if (!dataStr || dataStr === "—") {
+    alert("Document not found.");
+    return;
+  }
+
+  const win = window.open("", "_blank");
+
+  if (!win) {
+    alert("Please allow popups.");
+    return;
+  }
+
+  if (dataStr.startsWith("data:image/")) {
+
+    win.document.write(`
+      <img src="${dataStr}"
+      style="width:100%;height:auto;">
+    `);
+
+  } else {
+
+    win.document.write(`
+      <iframe
+        src="${dataStr}"
+        width="100%"
+        height="100%"
+        style="position:fixed;top:0;left:0;border:none;">
+      </iframe>
+    `);
+
+  }
+}
 </script>
 </body>
 </html>
