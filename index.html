@@ -174,7 +174,14 @@
         <button class="btn btn-sm" onclick="logoutAdmin()" style="background:#718096;"><i class="ti ti-logout"></i> Lock Panel</button>
       </div>
     </div>
-    
+    <div style="margin:15px 0;">
+  <input
+    type="text"
+    id="searchRoll"
+    placeholder="Search by Roll Number..."
+    onkeyup="searchStudent()"
+    style="padding:10px;width:250px;border:1px solid #ccc;border-radius:6px;">
+</div>
     <div class="table-wrapper">
       <table>
         <thead>
@@ -483,6 +490,26 @@ function viewDocument(globalVarKey) {
       </iframe>
     `);
 
+  }
+}
+ function searchStudent() {
+  const input = document.getElementById("searchRoll").value.toUpperCase();
+  const table = document.getElementById("adminTableBody");
+  const rows = table.getElementsByTagName("tr");
+
+  for (let i = 0; i < rows.length; i++) {
+
+    const rollCell = rows[i].getElementsByTagName("td")[1];
+
+    if (rollCell) {
+
+      const txtValue = rollCell.textContent || rollCell.innerText;
+
+      rows[i].style.display =
+        txtValue.toUpperCase().includes(input)
+          ? ""
+          : "none";
+    }
   }
 }
 </script>
