@@ -369,11 +369,13 @@ function logoutAdmin() {
 
 // Render Table - Escaped variable strings fix applied here
 function renderAdminTable(dataObj) {
+   console.log("Data received:", dataObj);
+
   const tbody = document.getElementById("adminTableBody");
   if (!dataObj) {
     tbody.innerHTML = `
 <tr>
-  <td colspan="11" class="no-data">
+  <td colspan="12" class="no-data">
     No central student entries found.
   </td>
 </tr>`;
