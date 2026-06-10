@@ -286,10 +286,10 @@ async function handleFormSubmit(e) {
   const aadharFile = document.getElementById("docAadhar").files[0];
   const otherFile = document.getElementById("docOther").files[0];
 
-  if ((aadharFile && aadharFile.size > 1500000) || (otherFile && otherFile.size > 1500000)) {
-    showToast("File size too large! Please select files under 1.5MB.");
+if ((aadharFile && aadharFile.size > 5000000) || (otherFile && otherFile.size > 5000000)) {
+    showToast("File size too large! Please select files under 5MB.");
     return;
-  }
+}
 
   showToast("Uploading data to cloud...");
 
