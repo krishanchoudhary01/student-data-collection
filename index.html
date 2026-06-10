@@ -197,6 +197,7 @@
             <th>Address</th>
             <th>Aadhar Document</th>
             <th>Other Document</th>
+           <th>Action</th>
           </tr>
         </thead>
         <tbody id="adminTableBody">
@@ -414,6 +415,19 @@ onclick="viewDocument('${row.id}_other')">
         <td>${row.address}</td>
         <td>${aadharLink}</td>
         <td>${otherLink}</td>
+        <td>
+  <button
+    onclick="deleteStudent('${row.id}')"
+    style="
+      background:#dc2626;
+      color:white;
+      border:none;
+      padding:6px 10px;
+      border-radius:5px;
+      cursor:pointer;">
+    Delete
+  </button>
+</td>
       </tr>
     `;
   }).join("");
@@ -511,6 +525,24 @@ function viewDocument(globalVarKey) {
           : "none";
     }
   }
+}
+ function deleteStudent(studentId) {
+
+  const confirmDelete = confirm(
+    "Are you sure you want to delete this student?"
+  );
+
+  if (!confirmDelete) return;
+
+  database.ref('students/' + studentId)
+    .remove()
+    .then(() => {
+      showToast("Student deleted successfully.");
+    })
+    .catch((error) => {
+      console.error(error);
+      showToast("Delete failed.");
+    });
 }
 </script>
 </body>
